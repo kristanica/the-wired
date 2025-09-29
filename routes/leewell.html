@@ -6,14 +6,1012 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="assets/styles/indexStyle.css" />
-    <link rel="stylesheet" href="assets/styles/variables.css" />
+    <link rel="stylesheet" href="assets/styles/indexStyle.css" />
+    <link rel="stylesheet" href="../assets/styles/variables.css" />
+
     <script
       src="https://kit.fontawesome.com/566c00e5db.js"
       crossorigin="anonymous"
     ></script>
   </head>
+  <style>
+    @keyframes glitchEffect {
+      0% {
+        text-shadow: 2px 0 red, -2px 0 blue;
+      }
+      20% {
+        text-shadow: -2px -2px lime, 2px 2px #69586b;
+      }
+      40% {
+        text-shadow: 2px 2px #f213de, -2px -2px #c73deb;
+      }
+      60% {
+        text-shadow: -2px 2px cyan, 2px -2px #02c2cc;
+      }
+      100% {
+        text-shadow: none;
+      }
+    }
 
+    #typewriter {
+      animation: glitchEffect 1s infinite reverse;
+    } /* Scanlines overlay */
+    /* .crt {
+      position: relative;
+      background: black;
+      overflow: hidden;
+    } */
+    .crt {
+      content: "";
+      position: absolute;
+
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(155, 49, 49, 0.05) 0px,
+        rgba(255, 255, 255, 0.05) 2px,
+        transparent 5px,
+        transparent 10px
+      );
+      pointer-events: none;
+
+      animation: scanlines infinite 0.2s linear;
+    }
+    @keyframes scanlines {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 0 4px;
+      }
+    }
+  </style>
   <body
-    class="flex justify-between py-32 flex-col relative items-center min-h-screen overflow-hidden transition-all duration-300 bg-[#0E0E0E] bg-center bg-no-repeat bg-cover"
-  ></body>
+    class="relative bg-[#0E0E0E] flex justify-center overflow-y-scroll lg:overflow-hidden items-center min-h-screen saturate-50"
+  >
+    <div
+      id="modal"
+      class="h-full flex justify-center items-center w-full bg-black/40 absolute transition-opacity opacity-0 pointer-events-none z-[50]"
+    >
+      <div class="relative">
+        <button
+          id="closeModal"
+          class="absolute top-0 right-0 text-red-500 text-2xl p-2 cursor-pointer z-50"
+        >
+          X
+        </button>
+        <img id="js-modal-content" />
+      </div>
+    </div>
+    <div class="absolute crt w-full h-full z-[999]"></div>
+    <h1
+      class="blur-sm text-[#B5B8A6] text-4xl sm:text-6xl md:text-9xl rotate-180 top-0 right-0 absolute -z-[20]"
+      style="font-family: var(--font-header)"
+    >
+      Leewell
+    </h1>
+    <h1
+      class="blur-sm text-[#B5B8A6] text-4xl sm:text-6xl md:text-9xl absolute bottom-0 left-0 absolute -z-[20]"
+      style="font-family: var(--font-header)"
+    >
+      Le<span class="rotate-180 inline-block">e</span>well
+    </h1>
+    <video
+      autoplay
+      muted
+      loop
+      id="js-background-video"
+      class="absolute inset-0 blur-lg bg-cover bg-center opacity-20 min-h-screen overflow-hidden min-w-screen transition-opacity duration-500 z-[-1]"
+    >
+      <source src="/assets/video/lain-background-video.mkv" type="video/mp4" />
+    </video>
+    <button
+      style="font-family: var(--font-header)"
+      id="js-show-container"
+      class="mx-auto text-white absolute z-[-1] cursor-pointer hover:scale-95 text-xs transition-scale duration-200"
+    >
+      Did you really just closed it?
+    </button>
+    <div
+      id="js-main-container"
+      class="opacity-100 transition-opacity duration-300 my-[10px] mt-2 shadow-[0px_5px_5px_0px_rgba(0,0,0,0.75)] md:w-[90%] bg-[#141412] justify-between flex flex-col"
+    >
+      <nav
+        class="w-full bg-[#181715] flex shadow-[0px_5px_5px_0px_rgba(0,0,0,0.75)]"
+      >
+        <ul
+          class="text-[#B5B8A6] flex flex-1 py-3 flex-row cursor-pointer items-center"
+        >
+          <a href="/index.html">
+            <img src="../assets/image/leewell/icon.gif" class="h-5 ml-3 w-5" />
+          </a>
+
+          <li
+            class="mx-4 hover:underline hover:scale-90 transition-scale duration-300"
+          >
+            Home
+          </li>
+          <li
+            class="hover:underline hover:scale-90 transition-scale duration-300"
+          >
+            About
+          </li>
+          <li
+            class="mx-4 hover:underline hover:scale-90 transition-scale duration-300"
+          >
+            Contact
+          </li>
+          <li
+            class="hover:underline hover:scale-90 transition-scale duration-300"
+          >
+            Socials
+          </li>
+        </ul>
+        <div class="hidden flex-1 bg-[#181715] lg:flex flex-row justify-end">
+          <div class="font-mono text-x text-gray-400 mt-4 flex flex-row">
+            <p>> Battery: <span class="text-red-500"> 12% </span></p>
+            <p>> Ping: <span class="text-yellow-400">999ms</span></p>
+            <p>
+              > Signal:
+              <span class="text-green-400 animate-pulse">unstable</span>
+            </p>
+          </div>
+          <button
+            id="js-close-button"
+            class="line-through cursor-pointer animate-ping text-red-500 mx-5"
+          >
+            X
+          </button>
+        </div>
+      </nav>
+      <div class="flex-1 flex flex-col sm:flex-row md:flex-row">
+        <!-- Home -->
+
+        <div
+          class="js-tab flex-1 my-4 flex-col flex justify-center items-center opacity-100 transition-opacity duration-300 h-[50%]"
+          id="js-home"
+        >
+          <div
+            id="js-connection-container"
+            class="flex justify-center h-[500px] items-center flex-col relative"
+          >
+            <div class="z-1 flex justify-center items-center flex-col">
+              <h1
+                style="font-family: var(--font-header)"
+                class="text-white text-center"
+              >
+                <span class="line-through animate-ping text-red-500">+ </span>
+                Signal acquirted.
+                <span class="text-green-400"> Connection </span> unstable.
+                You’ve entered Leewell’s node.
+                <span class="line-through animate-ping text-red-500">+ </span>
+              </h1>
+
+              <button
+                id="js-continue-button"
+                class="text-white z-50 cursor-pointer hover:scale-90 transition-scale duration-300 text-mono"
+              >
+                Press to continue
+              </button>
+            </div>
+
+            <img
+              src="../assets/image/leewell/lain-eye.jpg"
+              class="absolute opacity-20 object-fill"
+            />
+          </div>
+          <!-- After pressing continue -->
+          <div
+            id="js-home-container"
+            class="flex hidden flex-col flex-1 opacity-0 transition-opacity duration-300 py-[100px]"
+          >
+            <div class="flex-[2] flex flex-col justify-center items-center">
+              <img src="../assets/image/leewell/LAIN.gif" class="w-40 h-40" />
+              <h1
+                style="font-family: var(--font-header)"
+                class="text-center text-white text-2xl mt-5"
+              >
+                <span class="line-through animate-ping text-red-500">+</span>
+                WELCOME TO
+                <span class="text-red-500 line-through">LEEWELL</span>
+                <span class="line-through animate-ping text-red-500">+</span>
+              </h1>
+              <h6 class="text-white" style="font-family: var(--font-header)">
+                Student // Programmer
+              </h6>
+              <p class="text-xs text-justify text-white">
+                - [ Who doesn't like paramore? ] -
+              </p>
+            </div>
+            <div class="flex-1 py-5">
+              <p class="font-mono text-center px-3 text-white">
+                <span class="text-[#DAC5A6]">Leewell M. Caputol</span> is
+                currently a 4th Year IT Student specialized in Web and Mobile
+                application on Tarlac State University, San Isidro Campus. He
+                really likes listening to various types of music but is
+                heads-over-heels on
+                <a
+                  href="https://en.wikipedia.org/wiki/Paramore"
+                  title="Curious are you?"
+                  target="_blank"
+                  class="text-red-500 hover:underline cursor-pointer"
+                  >PARAMORE.</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- About -->
+        <div class="js-tab flex-1 my-4 hidden">
+          <div class="flex flex-col lg:flex-row gap-2 bg-[#181715] px-5 py-2">
+            <!-- Left Section: Profile + Career Logs -->
+            <div class="flex flex-col lg:w-1/3 bg-black/40 p-3">
+              <!-- Profile Info -->
+              <div
+                class="border-b border-[#69586b] pb-3 max-h-[30%] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+              >
+                <div
+                  class="flex flex-row items-center border-b border-[#69586b] mb-2 pb-2"
+                >
+                  <img
+                    src="../assets/image/leewell/carousel/leewell-3.jpg"
+                    class="h-24 w-24 object-cover rounded"
+                  />
+                  <h1
+                    style="font-family: var(--font-header)"
+                    class="text-white ml-4 font-extrabold"
+                  >
+                    Connection to
+                    <span class="line-through text-purple-400"> Leewell </span>
+                  </h1>
+                </div>
+
+                <ul class="text-white text-sm space-y-2">
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-signal"></i> Name:
+                      <span class="animate-pulse text-blue-400 font-semibold"
+                        >Leewell M. Caputol</span
+                      >
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-signal"></i> Status:
+                      <span class="animate-pulse text-orange-500 font-semibold"
+                        >• Away</span
+                      >
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      >
+                      <i class="fa-solid fa-location-crosshairs"></i> Location:
+                      <span class="font-normal">Somewhere in the wired...</span>
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-laptop-code"></i> Skills:
+                      <span class="font-normal"
+                        >Web Dev, Mobile Dev, Pixel Art</span
+                      >
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-gamepad"></i> Interests:
+                      <span class="font-normal"
+                        >Coding, Gaming, Pixel Projects</span
+                      >
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-heart"></i> Favorite Color:
+                      <span class="font-normal"
+                        >Dark schemes w/ Pink accents</span
+                      >
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-briefcase"></i> Affiliation:
+                      <span class="font-normal">Tarlac State University</span>
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-location-dot"></i> Site of
+                      Operation:
+                      <span class="font-normal">San Isidro Campus</span>
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-envelope"></i> Role:
+                      <span class="font-normal">Student</span>
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-envelope"></i> Specialization:
+                      <span class="font-normal"
+                        >Web and Mobile Application</span
+                      >
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-signal"></i> Connection:
+                      <span class="font-normal">Somewhat stable</span>
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-sigtnal"></i> Signal Strength:
+                      <span class="animate-pulse text-green-400"
+                        >████<span class="text-gray-500">▒▒▒▒▒▒</span></span
+                      >
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-radio"></i> Last Transmission:
+                      <span class="font-normal">01/01/04 21:37</span>
+                    </h3>
+                  </li>
+                  <li>
+                    <h3 class="font-bold">
+                      > <i class="fa-solid fa-moon"></i> Current Mood:
+                      <span class="italic font-normal"
+                        >Half-present, half-projection.</span
+                      >
+                    </h3>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Career Logs -->
+              <div
+                class="h-[40%] overflow-y-auto mt-3 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+              >
+                <h1
+                  style="font-family: var(--font-header)"
+                  class="text-white font-extrabold mb-3"
+                >
+                  Career Logs:
+                </h1>
+                <ul class="space-y-1">
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2015] Leewell escaped Elementary on Lias Elementary
+                      School
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2020] Leewell survived High School on O'Donnell High
+                      School
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2022] Completed Senior High, barely intact on O'Donnell
+                      High School
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2022] Plugged into Tarlac State University
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2023] Endured the first year of the system
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2024] Survived the second year, glitches and all
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2025] Navigated the chaos of third year
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2025] Began the fourth year — no promises
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2024] Presented Capstone proposal
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400">
+                      [2025] Started working on Capstone system
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-xs text-gray-400 animate-pulse">
+                      Leewell is still writing his story.....
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div class="relative h-[30%] mt-3">
+                <div class="flex flex-wrap absolute">
+                  <h1
+                    style="font-family: var(--font-header)"
+                    class="text-white font-extrabold"
+                  >
+                    Projects i made and currently making
+                  </h1>
+                  <div class="text-white w-[50%] py-2 px-2">
+                    <h3 style="font-family: var(--font-header)">Devlab`</h3>
+                    <p class="text-xs text-gray-400">
+                      - A gamified learning platform for web development using
+                      React Native, Firebase, and NLP-based code evaluation
+                    </p>
+                  </div>
+
+                  <div class="text-white w-[50%] py-2 px-2">
+                    <h3 style="font-family: var(--font-header)">
+                      Procrastiquest
+                    </h3>
+                    <p class="text-xs text-gray-400">
+                      - A MERN stack gamified productivity app where users
+                      complete real-life tasks to fight monsters, earn XP, and
+                      level up like in an RPG.
+                    </p>
+                  </div>
+                  <div class="text-white w-[50%] py-7 px-2">
+                    <h3 style="font-family: var(--font-header)">
+                      Syntethic Archives
+                    </h3>
+                    <p class="text-xs text-gray-400">
+                      - A collaborative project of a minimalist pixel art
+                      gallery for LAIN
+                    </p>
+                  </div>
+                  <div class="text-white w-[50%] py-7 px-2">
+                    <h3 style="font-family: var(--font-header)">
+                      This portfolio
+                    </h3>
+                    <p class="text-xs text-gray-400">
+                      - Well, you're literally looking at it right now
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Middle Section: About -->
+            <div class="flex flex-col lg:w-2/3 gap-2">
+              <!-- About / Intro -->
+              <div
+                class="flex-1 font-mono text-[#DAC5A6] text-sm bg-black/40 p-3 overflow-y-auto"
+              >
+                <h1 style="font-family: var(--font-header)">
+                  <!-- keep your Q&A blocks here -->
+                  - Hello? Who is this?
+                </h1>
+                <p class="text-justify px-5">
+                  Hi, hey, Hello. My name is leewell, i dont really have much to
+                  talk about since all my information are literally displayed in
+                  here lol. Anwways, I hope you're not tripping with this kind
+                  of design lol. I really like this type of "grunchy" or
+                  "Mysterious" type of design since i really like Serial
+                  Experiments Lain. As you can see, this portfolio is heavily
+                  inspired by that show. Anyways, i hope u enjoy ur stay and
+                  stay connected in the
+                  <span
+                    style="font-family: var(--font-header)"
+                    class="text-red-500"
+                  >
+                    <a
+                      href="https://lain.fandom.com/wiki/The_Wired"
+                      target="_blank"
+                      title="Are you gonna connect?"
+                      >wired</a
+                    ></span
+                  >
+                  .
+                </p>
+
+                <h1 style="font-family: var(--font-header)">
+                  - So what do you really do?
+                </h1>
+                <p class="text-justify px-5">
+                  Well uhhh, i mainly code nowadays since of capstone. But when
+                  im not, i usually play some games with my friends or just stay
+                  blankly in the air sinking into deep thoughts lol. Anyway, i
+                  also listen to music, when music i mean PARAMORE. I've had
+                  Paramore on repeat on all music platforms since the time i
+                  discovered them. Not convince? check my
+                  <span class="text-red-500"
+                    ><a
+                      href="https://www.last.fm/user/Kristanica"
+                      target="_blank"
+                      >LastFM</a
+                    ></span
+                  >. I also listed to random podcast on spotify. Im currently
+                  listening to We're Alive and thats pretty much it
+                </p>
+
+                <h1 style="font-family: var(--font-header)">
+                  - Any creative stuff besides code?
+                </h1>
+                <p class="text-justify px-5">
+                  Yeah, I mess around with pixel art sometimes. It’s kind of
+                  like pressing pause on the chaos and capturing moments in
+                  tiny, blocky details. It’s nostalgic but also very...
+                  distorted. I also like writing random short notes, often
+                  chaotic, usually full of sarcasm, and sometimes inspired by
+                  shows like Lain. Think of them as fragments — small signals
+                  leaking from my brain into the wired.
+                </p>
+              </div>
+
+              <!-- Right Info Panels -->
+              <div
+                class="flex flex-col lg:flex-row text-[#DAC5A6] text-sm font-mono"
+              >
+                <!-- Access Levels -->
+                <div class="flex-1 px-2 pt-2 bg-black/40 my-2">
+                  <p class="text-center font-extrabold">[ACCESS LEVELS]</p>
+                  <ul class="flex mt-2 flex-col items-center lg:items-start">
+                    <li>
+                      <span class="text-purple-400 font-bold animate-pulse"
+                        >[PERMISSION GRANTED]:</span
+                      >
+                      React Native / Expo
+                    </li>
+                    <li>
+                      <span class="text-purple-400 font-bold animate-pulse"
+                        >[PERMISSION GRANTED]:</span
+                      >
+                      React / Vite
+                    </li>
+                    <li>
+                      <span class="text-purple-400 font-bold animate-pulse"
+                        >[PERMISSION GRANTED]:</span
+                      >
+                      Express / Firebase
+                    </li>
+                    <li>
+                      <span class="text-purple-400 font-bold animate-pulse"
+                        >[PERMISSION GRANTED]:</span
+                      >
+                      HTML / CSS / JS
+                    </li>
+                    <li>
+                      <span class="text-purple-400 font-bold animate-pulse"
+                        >[PERMISSION GRANTED]:</span
+                      >
+                      TypeScript
+                    </li>
+                    <li>
+                      <span class="text-purple-400 font-bold animate-pulse"
+                        >[PERMISSION GRANTED]:</span
+                      >
+                      Figma
+                    </li>
+                    <li>
+                      <span class="text-purple-400 font-bold animate-pulse"
+                        >[PERMISSION GRANTED]:</span
+                      >
+                      Aseprite
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Repeated Tasks -->
+                <div class="flex-1 px-2 pt-2 bg-black/40 my-2">
+                  <p class="text-center font-extrabold">[REPEATED TASKS]</p>
+                  <ul class="flex mt-2 flex-col items-center lg:items-start">
+                    <li>
+                      <span class="text-blue-300 font-bold animate-pulse"
+                        >[HB1]:</span
+                      >
+                      Aseprite
+                    </li>
+                    <li>
+                      <span class="text-blue-300 font-bold animate-pulse"
+                        >[HB1]:</span
+                      >
+                      Games
+                    </li>
+                    <li>
+                      <span class="text-blue-300 font-bold animate-pulse"
+                        >[HB1]:</span
+                      >
+                      Music
+                    </li>
+                    <li>
+                      <span class="text-blue-300 font-bold animate-pulse"
+                        >[HB1]:</span
+                      >
+                      Podcasts
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Top Tracks -->
+                <div class="flex-1 px-2 pt-2 bg-black/40 my-2 py-2">
+                  <p class="text-center font-extrabold">[TOP TRACKS]</p>
+                  <ul class="flex mt-2 flex-col items-center lg:items-start">
+                    <li>
+                      <span class="text-green-300 font-bold animate-pulse"
+                        >[TR1]:</span
+                      >
+                      Conspiracy - Paramore
+                    </li>
+                    <li>
+                      <span class="text-green-300 font-bold animate-pulse"
+                        >[TR4]:</span
+                      >
+                      Decode - Paramore
+                    </li>
+                    <li>
+                      <span class="text-green-300 font-bold animate-pulse"
+                        >[TR3]:</span
+                      >
+                      Escape Route - Paramore
+                    </li>
+                    <li>
+                      <span class="text-green-300 font-bold animate-pulse"
+                        >[TR5]:</span
+                      >
+                      Oh Star - Paramore
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div
+                class="flex flex-row overflow-x-auto bg-black/40 p-2 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+              >
+                <img
+                  src="../assets/image/leewell/certificates/c1.png"
+                  class="ecert h-40 mx-2 cursor-pointer"
+                />
+                <img
+                  src="../assets/image/leewell/certificates/c2.png"
+                  class="ecert h-40 mx-2 cursor-pointer"
+                />
+                <img
+                  src="../assets/image/leewell/certificates/c3.png"
+                  class="ecert h-40 mx-2 cursor-pointer"
+                />
+                <img
+                  src="../assets/image/leewell/certificates/c4.png"
+                  class="ecert h-40 mx-2"
+                />
+                <img
+                  src="../assets/image/leewell/certificates/c5.png"
+                  class="ecert h-40 mx-2 cursor-pointer"
+                />
+                <img
+                  src="../assets/image/leewell/certificates/c6.png"
+                  class="ecert h-40 mx-2 cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="js-tab flex-1 my-4 flex-col hidden px-3 justify-between">
+          <div>
+            <div
+              class="js-convo-box flex flex-row opacity-0 transition-opacity duration-300 px-5 bg-black shadow-[0_4px_15px_rgba(0,0,0,0.6)] py-5"
+            >
+              <img
+                src="../assets/image/leewell/icon.gif"
+                class="h-5 ml-3 w-5 mr-2"
+              />
+              <h6
+                style="font-family: var(--font-header)"
+                class="leading-relaxed text-red-500"
+              >
+                Leewell >
+                <span class="text-xs text-white">
+                  Hey uhh, this is Leewell. Thanks for paying a visit… I don’t
+                  really get those very much</span
+                >
+              </h6>
+            </div>
+
+            <div
+              class="js-convo-box flex flex-row opacity-0 transition-opacity duration-300 px-5 bg-black mb-3 px-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)] py-5 my-2"
+            >
+              <img
+                src="../assets/image/leewell/icon.gif"
+                class="h-5 ml-3 w-5 mr-2"
+              />
+              <h6
+                style="font-family: var(--font-header)"
+                class="leading-relaxed text-red-500"
+              >
+                Leewell >
+                <span class="text-xs text-white">
+                  It’s kinda weird putting myself out here, but I guess that’s
+                  what this place is for</span
+                >
+              </h6>
+            </div>
+
+            <div
+              class="js-convo-box flex flex-row opacity-0 transition-opacity duration-300 px-5 bg-black mb-3 px-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)] py-5"
+            >
+              <img
+                src="../assets/image/leewell/icon.gif"
+                class="h-5 ml-3 w-5 mr-2"
+              />
+              <h6
+                style="font-family: var(--font-header)"
+                class="leading-relaxed text-red-500"
+              >
+                Leewell >
+                <span class="text-xs text-white">
+                  Feel free to look around, just… don’t mind the static. It has
+                  a mind of its own sometimes....</span
+                >
+              </h6>
+            </div>
+
+            <div
+              class="js-convo-box flex flex-row opacity-0 transition-opacity duration-300 px-5 bg-black mb-3 px-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)] py-5"
+            >
+              <img
+                src="../assets/image/leewell/icon.gif"
+                class="h-5 ml-3 w-5 mr-2"
+              />
+              <h6
+                style="font-family: var(--font-header)"
+                class="leading-relaxed text-red-500"
+              >
+                Leewell >
+                <span class="text-xs text-white">
+                  If you’re wondering, yeah—Paramore on repeat keeps this node
+                  alive.</span
+                >
+              </h6>
+            </div>
+
+            <div
+              class="js-convo-box flex flex-row opacity-0 transition-opacity duration-300 px-5 bg-black mb-3 px-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)] py-5"
+            >
+              <img
+                src="../assets/image/leewell/icon.gif"
+                class="h-5 ml-3 w-5 mr-2"
+              />
+              <h6
+                style="font-family: var(--font-header)"
+                class="leading-relaxed text-red-500"
+              >
+                Leewell >
+                <span class="text-xs text-white">
+                  Anyway, welcome to my corner of the wired. Stay as long as you
+                  like</span
+                >
+              </h6>
+            </div>
+
+            <div
+              class="js-convo-box flex flex-row opacity-0 transition-opacity duration-300 px-5 bg-black mb-3 px-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)] py-5"
+            >
+              <img
+                src="../assets/image/leewell/icon.gif"
+                class="h-5 ml-3 w-5 mr-2"
+              />
+              <h6
+                style="font-family: var(--font-header)"
+                class="leading-relaxed text-red-500"
+              >
+                Leewell >
+                <span class="text-xs text-white">
+                  But hey, feel free to reach out to me. Just send me a message
+                  down below. I promise i'll read them. If i can
+                </span>
+              </h6>
+            </div>
+          </div>
+
+          <div class="border-[#181715] bg-black border-[2px] flex flex-row">
+            <input
+              type="text"
+              class="text-red-500 py-2 px-7 w-full border-r-white border-[2px] outline-none flex-1"
+              placeholder="Your email in here"
+            />
+            <input
+              type="text"
+              class="text-white py-2 px-7 w-full outline-none flex-2"
+              placeholder="message content"
+            />
+            <p
+              style="font-family: var(--font-header)"
+              class="text-white m-auto pr-5 font-extrabold"
+            >
+              >>
+            </p>
+          </div>
+        </div>
+        <!-- Socials -->
+
+        <div class="js-tab flex-1 my-4 hidden">
+          <div class="px-5 flex flex-1">
+            <div class="bg-[#181715] ml-5 px-5 flex-row flex flex-wrap flex-2">
+              <div
+                class="bg-[#121212] text-purple-400 font-mono p-4 mt-4 rounded flex-1"
+              >
+                <h2 class="text-white font-bold mb-2">Identity Nodes</h2>
+                <ul class="list-disc ml-4">
+                  <li>Github → Kristanica</li>
+                  <li>Facebook → @Leewell</li>
+                  <li>Instagram → lwl.lain</li>
+                  <li>LastFM → Kristanica</li>
+                  <li>Spotify → Kristanica</li>
+                </ul>
+              </div>
+              <div
+                class="bg-[#121212] text-purple-400 font-mono p-4 mt-4 rounded flex-1 ml-2"
+              >
+                <h2 class="text-white font-bold mb-2">Repositories</h2>
+                <ul class="list-disc ml-4">
+                  <li>
+                    Devlab →
+                    <a href="https://guthib.com/" target="_blank">Link</a>
+                  </li>
+                  <li>
+                    Syntethic Archives →
+                    <a href="https://guthib.com/" target="_blank">Link</a>
+                  </li>
+                </ul>
+                <p class="mt-2 italic text-white">
+                  "Everything feels... static."
+                </p>
+              </div>
+              <div
+                class="mt-8 font-mono text-[#DAC5A6] text-sm bg-black/40 p-4 flex-1 bg-[#121110] h-[500px] lg:h-[300px] text-white min-w-[100%] mb-2 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+              >
+                <h1
+                  class="bg-black text-center py-2"
+                  style="font-family: var(--font-header)"
+                >
+                  Recent Activites
+                </h1>
+
+                <div class="px-2 max-h-34 text-[#FFFFFF]">
+                  <p class="opacity-40">
+                    > [00:00:00] Spotify status changed -> "My Heart" - Paramore
+                  </p>
+                  <p class="my-1 opacity-40">
+                    > [00:00:00] Pushed Devlab changes to github
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [00:00:00] Pinged an unkown location
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [00:00:00] Spotify status changed -> "My Heart" - Paramore
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [21:49:37] Spotify status changed → "Decode" - Paramore
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [21:50:22
+                    <span class="text-red-400"
+                      >Unknown entity pinged the node...</span
+                    >
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [21:51:18] Transmission corrupted:
+                    <span class="animate-pulse"> ███▒▒▒▒▒▒▒▒▒▒</span>
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [21:52:05]
+                    <span class="text-blue-400"
+                      >Deployed new build of DevLab</span
+                    >
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [21:47:25]te
+                    <span class="text-yellow-400"
+                      >Incoming transmission detected</span
+                    >
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:19:37] Private log entetry:
+                    <span class="animate-pulse text-purple-400"
+                      >"Everything feels... static."</span
+                    >
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:20:50] Browser history wiped →
+                    <span class="italic">"just in case"</span>
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:21:14
+                    <span class="text-red-400"
+                      >Missed call from an unknown number</span
+                    >
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:22:36]
+                    <span class="text-pink-300"
+                      >Drew another pixel art at 3AM</span
+                    >
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:23:59] teSelf-ping → response time:
+                    <span class="text-yellow-400">∞</span>
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:25:47] Sent a message into the void → no reply
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:27:08] Spotify status changed → "Fake Happy" -
+                    Paramore
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:28:52] Note saved:
+                    <span class="italic"
+                      >"Capstone deadlines are hunting me"</span
+                    >
+                  </p>
+                  <p class="my-2 opacity-40">
+                    > [22:30:00]
+                    <span class="animate-pulse text-blue-400"
+                      >Identity fragmented across multiple nodes...</span
+                    >
+                  </p>
+
+                  <p class="my-2 opacity-40">
+                    > [00:00:00]
+                    <span class="animate-ping text-red-900"
+                      >SOMETHING WENT WRONG</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="js-carousel-container"
+          class="flex-col justify-center my-[30px] px-[40px] flex"
+        >
+          <h1
+            class="z-50 sm:text-[10px] md:text-2xl text-white text-center"
+            style="font-family: var(--font-header)"
+          >
+            <span id="typewriter"></span>
+          </h1>
+          <div class="flex justify-start items-end mt-5">
+            <div
+              id="image-carousel"
+              class="shadow-[0_0_20px_rgba(255,255,255,0.1)] z-[2] bg-contain bg-center bg-no-repeat rounded-lg h-128 w-84 mx-auto opacity-100 transition-opacity"
+            ></div>
+          </div>
+
+          <h1
+            id="glitch"
+            class="text-xl sm:text-2xl md:text-xs mt-5 text-white animate-pulse text-center"
+            style="font-family: var(--font-header)"
+          >
+            <span
+              id="js-quotes"
+              class="opacity-100 transition-opacity duration-300"
+              >Reality hums, distorted by static</span
+            >
+          </h1>
+        </div>
+      </div>
+    </div>
+    <script src="../assets/scripts/leewell/leewellScript.js"></script>
+  </body>
 </html>

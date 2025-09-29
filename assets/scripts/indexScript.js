@@ -2,8 +2,11 @@ const jsMiniProfile = document.querySelectorAll(".js-mini-profile");
 const jsUserName = document.querySelectorAll(".js-username");
 const jsVolumeButton = document.getElementById("js-volume-button");
 
+const jsImageProfile = document.querySelectorAll(".image-profile");
+
 const jsOverlay = document.getElementById("js-overlay");
 const jsBackgroundVideo = document.getElementById("js-background-video");
+
 const bgImage = [
   "../../assets/image/background-image-one.jpg",
   "../../assets/image/background-image-two.jpg",
@@ -16,11 +19,16 @@ jsMiniProfile.forEach((item, index) => {
     jsBackgroundVideo.classList.remove("opacity-100");
     jsOverlay.classList.add("opacity-100");
     jsBackgroundVideo.classList.add("opacity-0");
+    jsImageProfile[
+      index
+    ].src = `/assets/image/landing_page/landing-page-profile-${index + 1}.jpg`;
     jsUserName[index].classList.add("opacity-100");
   });
   item.addEventListener("mouseleave", () => {
     jsOverlay.classList.remove("opacity-100");
     jsBackgroundVideo.classList.add("opacity-100");
+
+    jsImageProfile[index].src = `/assets/image/profile-image-${index + 1}.jpg`;
     jsUserName[index].classList.remove("opacity-100");
     jsUserName[index].classList.add("opacity-0");
   });
