@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/styles/indexStyle.css" />
     <link rel="stylesheet" href="assets/styles/indexStyle.css" />
     <link rel="stylesheet" href="../assets/styles/variables.css" />
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
       src="https://kit.fontawesome.com/566c00e5db.js"
       crossorigin="anonymous"
@@ -111,6 +111,7 @@
     >
       Did you really just closed it?
     </button>
+
     <div
       id="js-main-container"
       class="opacity-100 transition-opacity duration-300 my-[10px] mt-2 shadow-[0px_5px_5px_0px_rgba(0,0,0,0.75)] md:w-[90%] bg-[#141412] justify-between flex flex-col"
@@ -222,6 +223,7 @@
                 - [ Who doesn't like paramore? ] -
               </p>
             </div>
+
             <div class="flex-1 py-5">
               <p class="font-mono text-center px-3 text-white">
                 <span class="text-[#DAC5A6]">Leewell M. Caputol</span> is
@@ -266,6 +268,9 @@
                 </div>
 
                 <ul class="text-white text-sm space-y-2">
+                  <li>
+                    <div id="currentlyPlaying"></div>
+                  </li>
                   <li>
                     <h3 class="font-bold">
                       > <i class="fa-solid fa-signal"></i> Name:
@@ -641,33 +646,11 @@
 
                 <!-- Top Tracks -->
                 <div class="flex-1 px-2 pt-2 bg-black/40 my-2 py-2">
-                  <p class="text-center font-extrabold">[TOP TRACKS]</p>
-                  <ul class="flex mt-2 flex-col items-center lg:items-start">
-                    <li>
-                      <span class="text-green-300 font-bold animate-pulse"
-                        >[TR1]:</span
-                      >
-                      Conspiracy - Paramore
-                    </li>
-                    <li>
-                      <span class="text-green-300 font-bold animate-pulse"
-                        >[TR4]:</span
-                      >
-                      Decode - Paramore
-                    </li>
-                    <li>
-                      <span class="text-green-300 font-bold animate-pulse"
-                        >[TR3]:</span
-                      >
-                      Escape Route - Paramore
-                    </li>
-                    <li>
-                      <span class="text-green-300 font-bold animate-pulse"
-                        >[TR5]:</span
-                      >
-                      Oh Star - Paramore
-                    </li>
-                  </ul>
+                  <p class="text-center font-extrabold">[RECENT TRACKS]</p>
+                  <ul
+                    class="flex mt-2 flex-col items-center lg:items-start"
+                    id="recent"
+                  ></ul>
                 </div>
               </div>
 
@@ -876,106 +859,16 @@
                 </p>
               </div>
               <div
-                class="mt-8 font-mono text-[#DAC5A6] text-sm bg-black/40 p-4 flex-1 bg-[#121110] h-[500px] lg:h-[300px] text-white min-w-[100%] mb-2 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                class="mt-8 font-mono text-[#DAC5A6] text-sm bg-black/40 flex-1 bg-[#121110] h-[500px] lg:h-[300px] text-white min-w-[100%] mb-2 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
               >
                 <h1
                   class="bg-black text-center py-2"
                   style="font-family: var(--font-header)"
                 >
-                  Recent Activites
+                  TOP TRACKS OF ALL TIME
                 </h1>
 
-                <div class="px-2 max-h-34 text-[#FFFFFF]">
-                  <p class="opacity-40">
-                    > [00:00:00] Spotify status changed -> "My Heart" - Paramore
-                  </p>
-                  <p class="my-1 opacity-40">
-                    > [00:00:00] Pushed Devlab changes to github
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [00:00:00] Pinged an unkown location
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [00:00:00] Spotify status changed -> "My Heart" - Paramore
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [21:49:37] Spotify status changed → "Decode" - Paramore
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [21:50:22
-                    <span class="text-red-400"
-                      >Unknown entity pinged the node...</span
-                    >
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [21:51:18] Transmission corrupted:
-                    <span class="animate-pulse"> ███▒▒▒▒▒▒▒▒▒▒</span>
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [21:52:05]
-                    <span class="text-blue-400"
-                      >Deployed new build of DevLab</span
-                    >
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [21:47:25]te
-                    <span class="text-yellow-400"
-                      >Incoming transmission detected</span
-                    >
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:19:37] Private log entetry:
-                    <span class="animate-pulse text-purple-400"
-                      >"Everything feels... static."</span
-                    >
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:20:50] Browser history wiped →
-                    <span class="italic">"just in case"</span>
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:21:14
-                    <span class="text-red-400"
-                      >Missed call from an unknown number</span
-                    >
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:22:36]
-                    <span class="text-pink-300"
-                      >Drew another pixel art at 3AM</span
-                    >
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:23:59] teSelf-ping → response time:
-                    <span class="text-yellow-400">∞</span>
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:25:47] Sent a message into the void → no reply
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:27:08] Spotify status changed → "Fake Happy" -
-                    Paramore
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:28:52] Note saved:
-                    <span class="italic"
-                      >"Capstone deadlines are hunting me"</span
-                    >
-                  </p>
-                  <p class="my-2 opacity-40">
-                    > [22:30:00]
-                    <span class="animate-pulse text-blue-400"
-                      >Identity fragmented across multiple nodes...</span
-                    >
-                  </p>
-
-                  <p class="my-2 opacity-40">
-                    > [00:00:00]
-                    <span class="animate-ping text-red-900"
-                      >SOMETHING WENT WRONG</span
-                    >
-                  </p>
-                </div>
+                <div class="px-2 max-h-34 text-[#FFFFFF] displayTrack"></div>
               </div>
             </div>
           </div>
@@ -1012,6 +905,7 @@
         </div>
       </div>
     </div>
+
     <script src="../assets/scripts/leewell/leewellScript.js"></script>
   </body>
 </html>

@@ -139,14 +139,132 @@ setInterval(() => {
   document.getElementById("js-quotes").textContent = quotes[y];
 }, 4000);
 
-// window.addEventListener("beforeunload", () => {
-//   localStorage.setItem("scrollY", window.scrollY);
-// });
+const accessToken = "3676a25fcba4aabddfa387ad85e6bca1";
 
-// window.addEventListener("load", () => {
-//   const scrollY = localStorage.getItem("scrollY");
-//   if (scrollY) window.scrollTo(0, parseInt(scrollY));
-// });
+const image = {
+  Paramore: "../assets/image/leewell/awkif.png",
+  Bente: "../assets/image/leewell/bente.jpg",
+  Katabi: "../assets/image/leewell/Katabi.png",
+  Tampo: "../assets/image/leewell/Tampo.jpg",
+};
+
+const awkif = ["Franklin", "Conspiracy", "My Heart", "O Star", "All We Know"];
+const riot = [
+  "Misery Business",
+  "crushcrushcrush",
+  "That's What You Get",
+  "When It Rains",
+];
+const tcfsr = ["The Ghost of You", "Helena"];
+const specialTracks = {
+  "My Own Summer (Shove It)": "../assets/image/leewell/minusBlindfold.jpg",
+  "Pag-Ibig ay Kanibalismo II": "../assets/image/leewell/fitterkarma.png",
+  "Minus Blindfold": "../assets/image/leewell/minusBlindfold.jpg",
+  wednesday: "../assets/image/leewell/wednesday.jpg",
+  Decode: "../assets/image/leewell/decode.png",
+  "Still Into You": "../assets/image/leewell/selftitled.png",
+};
+
+const username = "kristanica";
+const getTrack = async () => {
+  try {
+    const res = await fetch(
+      `http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${username}&api_key=${accessToken}&format=json&limit=20`
+    );
+
+    const playlist = await res.json();
+    console.log(playlist);
+
+    const container = document.querySelector(".displayTrack");
+
+    playlist.toptracks.track.forEach((track) => {
+      let src = null;
+
+      src = image[track.name];
+      if (awkif.includes(track.name)) {
+        src = "../assets/image/leewell/awkif.png";
+      } else if (riot.includes(track.name)) {
+        src = "../assets/image/leewell/riot.jpg";
+      } else if (tcfsr.includes(track.name)) {
+        src = "../assets/image/leewell/tcwfr.jpg";
+      } else if (specialTracks[track.name]) {
+        src = specialTracks[track.name];
+      }
+
+      container.innerHTML += `
+       <div style="display:flex; align-items:center; margin-bottom: 20px; gap: 20px;">
+  <img src="${src}" 
+       alt="${track.name}" 
+       style="height: 100px; width: 100px; object-fit: cover;" />
+  
+  <div>
+    <p style="margin: 0;">RANK: ${track["@attr"].rank}</p>
+        <p style="color: white; font-weight: 900; margin: 5px 0;">
+      Track Name: ${track.playcount} </p>
+    <p style="color: white; font-weight: 900; margin: 5px 0;">
+      Track Name: 
+      <a href="${track.url}" target="_blank" rel="noopener noreferrer" style="color: #1DB954;">
+        ${track.name}
+      </a>
+    </p>
+    
+    <p style="margin: 0;">
+      Artist: 
+      <a href="${track.artist.url}" target="_blank" rel="noopener noreferrer" style="color: purple;">
+        ${track.artist.name}
+      </a>
+    </p>
+  </div>
+</div>
+      `;
+    });
+  } catch (error) {
+    console.error("Error fetching playlist:", error);
+  }
+};
+
+const currentlyPlaying = document.getElementById("currentlyPlaying");
+const recent = document.getElementById("recent");
+
+const getRecentScrobble = async () => {
+  try {
+    const res = await fetch(
+      `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${accessToken}&format=json&limit=5`
+    );
+
+    const data = await res.json();
+
+    const recentTrack = data.recenttracks.track;
+
+    currentlyPlaying.innerHTML = `
+    
+
+    <div class ="flex items-center ">
+    <img src="${recentTrack[0].image[1]["#text"]}" class ="h-24 w-24"/>
+
+    <div class ="flex flex-col ml-2">
+   <p class ="font-bold">${recentTrack[0].name} <i class="fa-solid fa-music"></i></p>
+     <p class ="font-light opacity-50">${recentTrack[0].artist["#text"]}</p>
+    </div>
+  
+    </div>`;
+
+    recentTrack.forEach((item) => {
+      recent.innerHTML += `
+      <li>
+      <span class="text-green-300 font-bold animate-pulse"
+      >[TR1]:</span>
+      ${item.name}
+      </li>
+`;
+    });
+  } catch (error) {}
+};
+
+getTrack();
+
+getRecentScrobble();
+
 window.onload = () => {
   typeWriter();
 };
