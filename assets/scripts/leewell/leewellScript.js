@@ -262,7 +262,8 @@ const getRecentScrobble = async () => {
 };
 
 getTrack();
-
+console.log("hello")
+console.log("hello")
 getRecentScrobble();
 
 window.onload = () => {
