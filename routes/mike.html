@@ -167,6 +167,11 @@
           >
             Certificates
           </li>
+          <li
+            class="hover:underline hover:scale-90 transition-scale duration-300 ml-5"
+          >
+            Dota 2 
+          </li>
         </ul>
       </nav>
       <div class="flex-1 flex flex-col p-2 sm:flex-row md:flex-row border border-red-5  ">
@@ -278,7 +283,6 @@
 
   </div>
 </div>
-
         <!-- Certs -->
 
 <div class="js-tab flex-1 my-4 flex-col hidden justify-between" style="font-family: var(--Console);">
@@ -319,6 +323,32 @@
 </div>
   </div>
 </div>
+        <!-- API -->
+<div class="js-tab flex-1 my-4 flex-col hidden justify-between">
+  <div class="h-[100%] p-4 bg-[#0E0E0E]  rounded-lg flex flex-col">
+
+<div id="dota-terminal" class="flex-1 flex-col p-4 bg-[#0E0E0E] rounded-lg font-mono text-[#00FF00] text-lg overflow-auto">
+  <div id="dota-header" class="flex items-center space-x-2 mb-4">
+    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+    <span>// DOTA 2 PLAYER INFO</span>
+  </div>
+  <div id="dota-output">
+    <p><span class="text-[#888888]">[INFO]</span> Fetching Dota player data...</p>
+  </div>
+</div>
+
+
+
+    <!-- Terminal footer -->
+    <div class="text-[#00FF00] font-mono text-sm mt-4">
+      <span class="blink">_</span> Type <span class="text-[#ffffff]" style="font-family: var(--Console);">help contact</span> for more info
+    </div>  
+
+  </div>
+</div>
+
 
 
         <!-- Image Carousel, feel free to remove this -->
