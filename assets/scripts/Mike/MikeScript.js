@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function loadDotaProfile() {
-  const steam32 = "913869424"; // Steam32 ID
+  const steam32 = "913869424"; // Steam32 IDs
   const output = document.getElementById("dota-output");
 
   output.innerHTML = `<p><span class="text-[#888888]">[INFO]</span> Loading Dota 2 data...</p>`;
