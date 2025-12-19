@@ -1,7 +1,3 @@
-const TMDB_API_KEY = 'dc32ea99d1a41863b0717ad07b3bf7be';
-const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-
 const bgImages = [
     "../../assets/image/joseph/mugshot/mugShot-front.png",
     "../../assets/image/joseph/mugshot/mugShot-left.png",
@@ -15,16 +11,6 @@ const quotes = [
     "The world can only change through those willing to challenge it.",
     "If strength is justice, then is powerlessness a crime?",
     "I will create a peaceful world, but only if I become a villain in the eyes of history.",
-];
-
-const myFavoriteShows = [
-    { type: 'tv', id: 121964 },   
-    { type: 'tv', id: 31724},    
-];
-
-const currentlyWatching = [
-    { type: 'tv', id: 65930 },      
-    { type: 'tv', id: 37854 },      
 ];
 
 
@@ -111,6 +97,10 @@ function closeCert() {
     document.getElementById("certVideo").currentTime = 0;
 }
 
+const TMDB_API_KEY = 'dc32ea99d1a41863b0717ad07b3bf7be';
+const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
 async function fetchMediaDetails(type, id) {
     const url = `${TMDB_BASE_URL}/${type}/${id}?api_key=${TMDB_API_KEY}`;
 
@@ -125,6 +115,16 @@ async function fetchMediaDetails(type, id) {
         return null;
     }
 }
+
+const myFavoriteShows = [
+    { type: 'tv', id: 121964 },   
+    { type: 'tv', id: 31724},    
+];
+
+const currentlyWatching = [
+    { type: 'tv', id: 65930 },      
+    { type: 'tv', id: 37854 },      
+];
 
 function createMediaCard(media, type) {
     const title = media.title || media.name;
@@ -154,9 +154,6 @@ function createMediaCard(media, type) {
         >
         <div class="p-3 text-left flex-1 flex flex-col">
             <h4 class="text-white text-md font-bold mb-1" title="${title}">${title}</h4>
-            <p class="text-red-300 text-xs mb-2">
-                ${type === 'tv' ? 'Creator' : 'Director'}: ${creator}
-            </p>
             <p class="text-[#B5B8A6] text-xs mb-2 italic line-clamp-4">
                 ${overview}
             </p>
