@@ -1,4 +1,3 @@
-
 const bgImages = [
   "https://via.placeholder.com/400x600?text=BG1",
   "https://via.placeholder.com/400x600?text=BG2",
@@ -6,19 +5,7 @@ const bgImages = [
   "https://via.placeholder.com/400x600?text=BG4"
 ];
 
-const carousel = document.getElementById("image-carousel");
-if(carousel){
-  let i = 0;
-  carousel.style.backgroundImage = `url(${bgImages[i]})`;
-  setInterval(() => {
-    i = (i + 1) % bgImages.length;
-    carousel.style.opacity = 0;
-    setTimeout(() => {
-      carousel.style.backgroundImage = `url(${bgImages[i]})`;
-      carousel.style.opacity = 1;
-    }, 500);
-  }, 4000);
-}
+
 
 const navButtons = document.querySelectorAll(".nav-link");
 navButtons.forEach(btn => {
@@ -94,12 +81,6 @@ setInterval(() => {
 }, 300);
 
 
-window.addEventListener("mousemove", (e) => {
-  if(!carousel) return;
-  const x = (e.clientX / window.innerWidth - 0.5) * 10;
-  const y = (e.clientY / window.innerHeight - 0.5) * 10;
-  carousel.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
-});
 
 
 const cards = document.querySelectorAll('.project-card');
@@ -122,3 +103,77 @@ cards.forEach(card => {
     }
   });
 });
+
+
+
+  const bookElement = document.getElementById("bookElement");
+
+  async function loadBookAPI() {
+    try {
+      const res = await fetch(
+        "https://www.googleapis.com/books/v1/volumes?q=programming&maxResults=10"
+      );
+      const data = await res.json();
+
+      const books = data.items;
+      const randomBook = books[Math.floor(Math.random() * books.length)];
+      const info = randomBook.volumeInfo;
+
+      const title = info.title || "Unknown Title";
+      const authors = info.authors ? info.authors.join(", ") : "Unknown Author";
+      const description = info.description
+        ? info.description.slice(0, 180) + "…"
+        : "No description available.";
+
+      const thumbnail =
+        info.imageLinks?.thumbnail ||
+        "https://via.placeholder.com/128x192?text=No+Cover";
+
+      bookElement.innerHTML = `
+        <div class="flex gap-4">
+          <img src="${thumbnail}"
+               alt="${title}"
+               class="w-24 h-36 object-cover rounded-lg shadow-md border border-white/10"/>
+
+          <div class="flex flex-col justify-between">
+            <div>
+              <p class="text-xs text-green-400 mb-1">📚 Book Pick</p>
+              <h3 class="font-bold text-lg leading-tight">${title}</h3>
+              <p class="text-sm text-gray-400 mb-2">by ${authors}</p>
+              <p class="text-sm text-gray-300 leading-snug">
+                ${description}
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    } catch (error) {
+      bookElement.innerHTML =
+        "<p class='text-red-400 text-sm'>Could not load book info 😢</p>";
+      console.error("Error fetching book:", error);
+    }
+  }
+
+  loadBookAPI();
+
+
+
+
+  const jokeElement = document.getElementById("js-joke-api");
+
+  async function loadProgrammingJoke() {
+    try {
+      const res = await fetch(
+        "https://thequoteshub.com/api/random-quote"
+      );
+      const data = await res.json();
+         jokeElement.textContent = data.text + " — " + data.author;
+    } catch (error) {
+      jokeElement.textContent =
+        "Could not load a programming joke";
+      console.error("Joke API error:", error);
+    }
+  }
+
+  loadProgrammingJoke();
+
