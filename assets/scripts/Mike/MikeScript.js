@@ -128,7 +128,7 @@ async function loadDotaProfile() {
 
     const { personaname, avatar, profileurl } = dataProfile.profile;
     const mmr = dataProfile.mmr_estimate?.estimate ?? "N/A";
-
+// Comment
 
     const resHeroList = await fetch(
       "https://api.opendota.com/api/heroes"
