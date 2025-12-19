@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Joseph Daniel Castro</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="assets/styles/indexStyle.css" />
     <link rel="stylesheet" href="assets/styles/indexStyle.css" />
@@ -92,6 +92,12 @@
             class="mx-4 hover:underline hover:scale-90 transition-scale duration-300"
           >
             Contacts
+          </li>
+          <li
+            id="nav-shows"
+            class="mx-4 hover:underline hover:scale-90 transition-scale duration-300"
+          >
+            Shows
           </li>
         </ul>
       </nav>
@@ -408,8 +414,39 @@
             </div>
           </div>
         </div>
+        <!-- Shows -->
+        <div 
+          id="shows-tab-content" 
+          class="js-tab flex-1 my-4 flex-col hidden px-5 py-4 overflow-y-auto max-h-[85vh]"
+        >
+          <div class="flex flex-col sm:flex-row space-y-8 sm:space-y-0 sm:space-x-8 justify-center items-start">
+            
+            <div class="flex flex-col w-full sm:w-1/2">
+              <h2 class="text-2xl text-center text-red-500 font-bold mb-4" style="font-family: var(--font-header)">
+                🍿 Currently Watching
+              </h2>
+              <div 
+                id="currently-watching-container" 
+                class="grid grid-cols-2 gap-4 p-2 w-full"
+              >
+                <p class="text-white text-center col-span-2"></p>
+              </div>
+            </div>
 
-        <!-- Image Carousel -->
+            <div class="flex flex-col w-full sm:w-1/2">
+              <h2 class="text-2xl text-center text-red-500 font-bold mb-4" style="font-family: var(--font-header)">
+                ⭐ All-Time Favorites
+              </h2>
+              <div 
+                id="favorite-shows-container" 
+                class="grid grid-cols-2 gap-4 p-2 w-full"
+              >
+                <p class="text-white text-center col-span-2"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="w-[25%] flex flex-col justify-center my-[30px] px-[40px]">
           <h1
             class="z-50 sm:text-[10px] md:text-2xl text-white text-center"
